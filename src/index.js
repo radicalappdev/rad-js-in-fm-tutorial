@@ -2,6 +2,7 @@
 import { helloModuleFunction } from "./modules/hello.js";
 
 import sampleImage from "data-url:./img/Sample.png";
+
 //The first function. Remove this.
 const btn = document.querySelector("button");
 btn.onclick = function () {

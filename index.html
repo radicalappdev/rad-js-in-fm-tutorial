@@ -10,11 +10,24 @@
 </head>
 
 <body>
-  <h1>Alright. You're set.</h1>
-  <h2>Now build something amazing!</h2>
-  <button type="button">Click Me!</button>
-  <img id="imageFrame" alt="">
-  <!-- <img src="data-url:./src/img/Sample.png" alt=""> -->
+  <h1>Parcel Inline Images as Base64</h1>
+
+  <div>
+    <h3>Click the button to load the image from JavaScript on an empty img tab</h3>
+    <button type="button">Load... something?</button>
+    <img id="imageFrame" alt="">
+  </div>
+
+  <hr>
+
+  <div>
+    <h3>This image is loaded directly on the element</h3>
+    <pre><code>
+      "src='data-url:./src/img/Sample.png'"
+      
+    </code></pre>
+    <img src="data-url:./src/img/Sample.png">
+  </div>
 
   <script type="module">
     import "./src/index.js";
