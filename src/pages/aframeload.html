@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <style>
+        html,
+        body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+    </style>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <title>JSDev</title>
+</head>
+
+<body>
+    <h1>Parcel Inline 3D Model as Base64</h1>
+    <h2>Present the model with an Babylon JS scene</h2>
+
+    <!-- <div>
+        <h3>Click the button to load the image from JavaScript on an empty img tab</h3>
+        <button type="button">Load... something?</button>
+        <img id="imageFrame" alt="">
+    </div> -->
+
+    <div id="myEmbeddedScene">
+        <canvas id="renderCanvas"></canvas>
+        <script type="module">
+
+            import sampleModel from "data-url:../assets/banana.glb";
+
+            function myReplace(search, replace, string) {
+                var pattern = new RegExp(search, "g");
+                return string.replace(pattern, replace);
+            }
+
+            var search = 'data:model/gltf-binary;base64';
+            var replace = 'data:;base64,';
+            // var string = 'help me to help you';
+
+            // const sampleBase = myReplace(search, replace, sampleModel);
+            const sampleBase = "data:;base64," + sampleModel.split('base64,')[1];
+
+            window.addEventListener("DOMContentLoaded", async function () {
+
+                // console.log("sample model base 64", sampleModel)
+                // console.log(sampleModel)
+                console.log(sampleBase)
+
+                var canvas = document.getElementById("renderCanvas");
+                var engine = new BABYLON.Engine(canvas, true);
+                var createScene = async function () {
+                    var scene = new BABYLON.Scene(engine);
+                    var camera = new BABYLON.FreeCamera(
+                        "camera1",
+                        new BABYLON.Vector3(0, 5, -10),
+                        scene
+                    );
+                    camera.attachControl(canvas, true);
+                    camera.setTarget(BABYLON.Vector3.Zero());
+                    camera.attachControl(canvas, false);
+
+                    // create a basic light, aiming 0,1,0 - meaning, to the sky
+                    var light = new BABYLON.HemisphericLight(
+                        "light1",
+                        new BABYLON.Vector3(0, 1, 0),
+                        scene
+                    );
+
+                    // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+                    var ground = BABYLON.Mesh.CreateGround("ground1", 20, 20, 2, scene);
+                    var material = new BABYLON.StandardMaterial(scene);
+                    material.alpha = 1;
+                    material.diffuseColor = new BABYLON.Color3.FromHexString("#9ba8b8");
+                    // material.diffuseColor = new BABYLON.Color3(1.0, 0.2, 0.7);
+                    ground.material = material;
+
+                    // var cube = BABYLON.MeshBuilder.CreateBox("box", {
+                    //     height: 1,
+                    //     width: 1,
+                    //     depth: 1
+                    // });
+                    // cube.position = new BABYLON.Vector3(0, 1, 0);
+
+                    // Add XR support
+                    // var experience = await scene.createDefaultXRExperienceAsync({
+                    //     floorMeshes: [ground]
+                    // });
+
+                    // BABYLON.SceneLoader.Append('', sampleModel, scene, undefined, undefined, undefined, ".obj");
+
+                    // import sampleModel from "data-url:../assets/obelisk_01.obj";
+
+                    BABYLON.SceneLoader.Append('', sampleBase, scene, undefined, undefined, undefined, "");
+
+
+                    // BABYLON.SceneLoader.ImportMesh("", "../assets/", "banana.glb", scene, function (newMeshes) {
+                    //     // Set the target of the camera to the first imported mesh
+                    //     // camera.target = newMeshes[0];
+                    //     newMeshes[0].position = new BABYLON.Vector3(0, 1, 0);
+                    //     newMeshes[0].material = material
+                    //     newMeshes[0].scaling = new BABYLON.Vector3(10, 10, 10)
+                    //     console.log(newMeshes[0])
+
+                    // });
+
+                    // var assetsManager = new BABYLON.AssetsManager(scene);
+
+                    // // Import assets
+                    // const path = "../assets/";
+                    // assetsManager.addMeshTask("mesh task", "", path, "apple.glb").onSuccess = function (task) {
+                    //     let model = task.loadedMeshes[0];
+                    //     console.log(task)
+                    //     model.position = new BABYLON.Vector3(0, 2, 0);
+                    //     model.material = material;
+                    //     model.name = "obelisk";
+                    //     // camera.setTarget(model);
+                    // };
+
+                    // assetsManager.load();
+
+
+                    return scene;
+                };
+
+                // Start the render loop
+                var scene = await createScene();
+                engine.runRenderLoop(function () {
+                    scene.render();
+                });
+                window.addEventListener("resize", function () {
+                    engine.resize();
+                });
+            });
+        </script>
+
+    </div>
+
+
+
+    <script type="module">
+        // import "./src/index.js";
+
+    </script>
+</body>
+
+</html>
