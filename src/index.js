@@ -7,3 +7,24 @@ btn.onclick = function () {
 };
 
 //
+
+function myFunc() {
+  console.log("calling myFunc");
+  const later = () => {
+    console.log("calling FileMaker Script");
+
+    FileMaker.PerformScriptWithOption("FM_Later", "", "0");
+  };
+  setTimeout(later, 1000);
+}
+
+window.myFunc = myFunc;
+
+window.onload = function () {
+  const later = () => {
+    console.log("calling FileMaker Script");
+
+    FileMaker.PerformScriptWithOption("SessionReady", "", "0");
+  };
+  setTimeout(later, 1000);
+};

@@ -2,3 +2,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+#myEmbeddedScene {
+   height: 600px;
+  width: 800px;
+}
+
+a-scene {
+  height: 100%;
+  width: 100%;
+}
